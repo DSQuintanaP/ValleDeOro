@@ -1,0 +1,35 @@
+﻿@model IEnumerable<ValleDeOro.Models.MetodoPago>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a class="btn btn-outline-primary" asp-action="Create">Agregar Metodo de Pago</a>
+</p>
+<table class="table table-striped" id="TablaIndice">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NomMetodoPago)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NomMetodoPago)
+            </td>
+            <td>
+                <a class="btn btn-outline-primary" asp-action="Edit" asp-route-id="@item.IdMetodoPago">Editar</a> |
+                <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.IdMetodoPago">Detalles</a> |
+                <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.IdMetodoPago">Eliminar</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,48 @@
+﻿@model IEnumerable<ValleDeOro.Models.Abono>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a class="btn btn-outline-primary" asp-action="Create">Registrar Abono</a>
+    <a class="btn btn-outline-primary" asp-controller="MetodoPagoes" asp-action="Create">Agregar Metodo de Pago</a>
+</p>
+<table class="table table-striped" id="TablaIndice">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaAbono)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CantAbono)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdReservaNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaAbono)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CantAbono)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdReservaNavigation.IdReserva)
+            </td>
+            <td>
+                <a class="btn btn-outline-primry" asp-action="Edit" asp-route-id="@item.IdAbono">Edit</a> |
+                <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.IdAbono">Details</a> |
+                <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.IdAbono">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
