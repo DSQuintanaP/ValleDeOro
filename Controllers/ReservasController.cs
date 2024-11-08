@@ -119,7 +119,7 @@ namespace ValleDeOro.Controllers
             //    return View();
             //}
 
-            //var cliente = _context.Clientes.FirstOrDefault(c => c.NroDocumento == oReserva.NroDocumentoCliente);
+            var cliente = _context.Clientes.FirstOrDefault(c => c.NroDocumento == oReserva.NroDocumentoCliente);
 
             //if (cliente.Estado == false)
             //{
