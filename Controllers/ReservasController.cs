@@ -83,11 +83,11 @@ namespace ValleDeOro.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public Task<IActionResult> Create([Bind("IdReserva,NroDocumentoCliente,FechaReserva,FechaInicio,FechaFinalizacion,Iva,MontoTotal,MetodoPago,IdEstadoReserva")] Reserva oReserva, string paqueteSeleccionado, string serviciosSeleccionados)
+        public Task<IActionResult> Create([Bind("IdReserva,NroDocumentoCliente,FechaReserva,FechaInicio,FechaFinalizacion,Iva,MontoTotal,MetodoPago,IdEstadoReserva,IdServicio")] Reserva oReserva, string paqueteSeleccionado, string serviciosSeleccionados)
         {
 
             ViewBag.PaquetesDisponibles = _context.Paquetes.Where(s => s.Estado == true)
-                    .ToList(); ;
+                .ToList(); ;
             ViewBag.ServiciosDisponibles = _context.Servicios.Where(s => s.Estado == true && (s.IdServicio != 1 && s.IdServicio != 2 && s.IdServicio != 3))
                 .ToList();
             ViewData["Error"] = "True";
@@ -120,6 +120,7 @@ namespace ValleDeOro.Controllers
             //}
 
             var cliente = _context.Clientes.FirstOrDefault(c => c.NroDocumento == oReserva.NroDocumentoCliente);
+
 
             //if (cliente.Estado == false)
             //{
