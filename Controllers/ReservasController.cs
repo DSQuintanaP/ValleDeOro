@@ -88,7 +88,9 @@ namespace ValleDeOro.Controllers
 
             ViewBag.PaquetesDisponibles = _context.Paquetes.Where(s => s.Estado == true)
                 .ToList(); ;
-            ViewBag.ServiciosDisponibles = _context.Servicios.Where(s => s.Estado == true && (s.IdServicio != 1 && s.IdServicio != 2 && s.IdServicio != 3))
+            //ViewBag.ServiciosDisponibles = _context.Servicios.Where(s => s.Estado == true && (s.IdServicio != 1 && s.IdServicio != 2 && s.IdServicio != 3))
+            //    .ToList();
+            ViewBag.ServiciosDisponibles = _context.Servicios.Where(s => s.Estado == true)
                 .ToList();
             ViewData["Error"] = "True";
 
@@ -154,7 +156,7 @@ namespace ValleDeOro.Controllers
             {
                 var paquetes = listaPaqueteSeleccionado.Select(paquete => new Paquete
                 {
-                    IdPaquete = Convert.ToInt32(paquete.id),
+                    IdPaquete = Convert.ToInt32(paquete.Id),
                     Costo = Convert.ToDouble(paquete.costo)
                 }).ToList();
 
