@@ -14,8 +14,8 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="NroDocumentoCliente" class="control-label"></label>
-                <select asp-for="NroDocumentoCliente" class ="form-control" asp-items="ViewBag.NroDocumentoCliente"></select>
+                <label asp-for="NroDocumentoClienteNavigation.Nombres" class="control-label"></label>
+                <select asp-for="NroDocumentoClienteNavigation.Nombres" class ="form-control" asp-items="ViewBag.NroDocumentoCliente"></select>
             </div>
             <div class="form-group">
                 <label for="fechaInitial" asp-for="FechaInicio" class="control-label"></label>
@@ -38,8 +38,8 @@
                 <span asp-validation-for="MontoTotal" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="MetodoPago" class="control-label"></label>
-                <select asp-for="MetodoPago" class ="form-control" asp-items="ViewBag.MetodoPago"></select>
+                <label asp-for="MetodoPagoNavigation.NomMetodoPago" class="control-label"></label>
+                <select asp-for="MetodoPagoNavigation.NomMetodoPago" class="form-control" asp-items="ViewBag.MetodoPagoDisponible"></select>
             </div>
             <div class="form-group">
                 <label asp-for="DetalleReservaPaquetes" class="control-label"></label>

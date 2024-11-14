@@ -13,14 +13,20 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(Model => Model.IdMetodoPago)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.NomMetodoPago)
             </th>
-            <th></th>
+            <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdMetodoPago)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.NomMetodoPago)
             </td>

@@ -270,6 +270,8 @@ public partial class GvglampingContext : DbContext
             entity.HasOne(d => d.IdHabitacionNavigation).WithMany(p => p.Paquetes)
                 .HasForeignKey(d => d.IdHabitacion)
                 .HasConstraintName("FK__Paquetes__IdHabi__52593CB8");
+            //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+            entity.Property(entity => entity.Estado).HasDefaultValue(true);
         });
 
         modelBuilder.Entity<PaqueteServicio>(entity =>
@@ -360,6 +362,8 @@ public partial class GvglampingContext : DbContext
             entity.HasOne(d => d.IdTipoServicioNavigation).WithMany(p => p.Servicios)
                 .HasForeignKey(d => d.IdTipoServicio)
                 .HasConstraintName("FK__Servicios__IdTip__4BAC3F29");
+            //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+            entity.Property(d => d.Estado).HasDefaultValue(true);
         });
 
         modelBuilder.Entity<TipoDocumento>(entity =>

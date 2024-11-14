@@ -74,7 +74,7 @@ namespace ValleDeOro.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["IdEstadoReserva"] = new SelectList(_context.EstadosReservas, "IdEstadoReserva", "IdEstadoReserva", reserva.IdEstadoReserva);
-            ViewData["MetodoPago"] = new SelectList(_context.MetodoPagos, "IdMetodoPago", "IdMetodoPago", reserva.MetodoPago);
+            ViewData["MetodoPago"] = new SelectList(_context.MetodoPagos, "NomMetodoPago", "NomMetodoPago", reserva.MetodoPagoNavigation.NomMetodoPago);
             ViewData["NroDocumentoCliente"] = new SelectList(_context.Clientes, "NroDocumento", "NroDocumento", reserva.NroDocumentoCliente);
             return View(reserva);
         }
@@ -92,6 +92,7 @@ namespace ValleDeOro.Controllers
             //    .ToList();
             ViewBag.ServiciosDisponibles = _context.Servicios.Where(s => s.Estado == true)
                 .ToList();
+            ViewBag.MetodoPagoDisponible = _context.MetodoPagos.Where(s => s.NomMetodoPago != null && s.NomMetodoPago.Any());
             ViewData["Error"] = "True";
 
             if (string.IsNullOrEmpty(paqueteSeleccionado))

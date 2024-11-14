@@ -31,7 +31,7 @@ public partial class Reserva
 
     public virtual EstadosReserva? IdEstadoReservaNavigation { get; set; }
 
-    public virtual MetodoPago? MetodoPagoNavigation { get; set; }
+    public virtual MetodoPago? MetodoPagoNavigation { get; set; } 
 
     public virtual Cliente? NroDocumentoClienteNavigation { get; set; }
 }
