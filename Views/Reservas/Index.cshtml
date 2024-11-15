@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ValleDeOro.Models.Reserva>
+﻿@* @model IEnumerable<ValleDeOro.Models.Reserva>
 
 @{
     ViewData["Title"] = "Index";
@@ -76,4 +76,57 @@
         </tr>
 }
     </tbody>
+</table>
+ *@
+ @model IEnumerable<ValleDeOro.Models.Reserva>
+
+@{
+    ViewData["Title"] = "Reservas";
+}
+
+<h1>Lista de Reservas</h1>
+
+<p>
+    <a class="btn btn-outline-primary" asp-action="Create">Registrar Reserva</a>
+    <a class="btn btn-outline-success" asp-controller="Abonoes" asp-action="Create">Registrar Abono</a>
+</p>
+
+<table class="table table-striped" id="TablaIndice">
+    <thead class="table-dark">
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.FechaReserva)</th>
+            <th>@Html.DisplayNameFor(model => model.FechaInicio)</th>
+            <th>@Html.DisplayNameFor(model => model.FechaFinalizacion)</th>
+            <th>@Html.DisplayNameFor(model => model.Iva)</th>
+            <th>@Html.DisplayNameFor(model => model.MontoTotal)</th>
+            <th>@Html.DisplayNameFor(model => model.IdEstadoReservaNavigation.NombreEstadoReserva)</th>
+            <th>@Html.DisplayNameFor(model => model.MetodoPagoNavigation.NomMetodoPago)</th>
+            <th>@Html.DisplayNameFor(model => model.NroDocumentoClienteNavigation.Nombres)</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.FechaReserva?.ToString("dd/MM/yyyy")</td>
+                <td>@item.FechaInicio?.ToString("dd/MM/yyyy")</td>
+                <td>@item.FechaFinalizacion?.ToString("dd/MM/yyyy")</td>
+                <td>@item.Iva?.ToString("C")</td>
+                <td>@item.MontoTotal?.ToString("C")</td>
+                <td>@item.IdEstadoReservaNavigation.NombreEstadoReserva</td>
+                <td>@item.MetodoPagoNavigation.NomMetodoPago</td>
+                <td>@item.NroDocumentoClienteNavigation.Nombres</td>
+                <td>
+                    <div class="d-flex flex-wrap gap-2">
+                        <a class="btn btn-outline-primary btn-sm" asp-action="Edit" asp-route-id="@item.IdReserva">Editar</a>
+                        <a class="btn btn-outline-info btn-sm" asp-action="Details" asp-route-id="@item.IdReserva">Detalles</a>
+                        <a class="btn btn-outline-danger btn-sm" asp-action="Delete" asp-route-id="@item.IdReserva">Eliminar</a>
+                        <a class="btn btn-outline-success btn-sm" asp-controller="Abonoes" asp-action="Create">Abonar</a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+
 </table>

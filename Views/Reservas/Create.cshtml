@@ -1,5 +1,5 @@
-﻿@model ValleDeOro.Models.Reserva
-@using ValleDeOro.Models;
+﻿@* @model ValleDeOro.Models.Reserva
+
 
 @{
     ViewData["Title"] = "Create";
@@ -63,4 +63,75 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+ *@
+ @model ValleDeOro.Models.Reserva
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Crear Reserva</h1>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="NroDocumentoCliente" class="control-label"></label>
+                <select asp-for="NroDocumentoCliente" class="form-control" asp-items="ViewBag.NroDocumentoCliente"></select>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="FechaInicio" class="control-label"></label>
+                <input type="date" asp-for="FechaInicio" asp-format="{0:yyyy-MM-dd}" class="form-control" />
+                <span asp-validation-for="FechaInicio" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="FechaFinalizacion" class="control-label"></label>
+                <input type="date" asp-for="FechaFinalizacion" asp-format="{0:yyyy-MM-dd}" class="form-control" />
+                <span asp-validation-for="FechaFinalizacion" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Iva" class="control-label"></label>
+                <input asp-for="Iva" class="form-control" />
+                <span asp-validation-for="Iva" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="MontoTotal" class="control-label"></label>
+                <input asp-for="MontoTotal" class="form-control" />
+                <span asp-validation-for="MontoTotal" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="MetodoPagoNavigation.IdMetodoPago" class="control-label"></label>
+                <select asp-for="MetodoPagoNavigation.IdMetodoPago" class="form-control" asp-items="ViewBag.MetodoPagoDisponible"></select>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="DetalleReservaPaquetes" class="control-label"></label>
+                <select asp-for="DetalleReservaPaquetes" class="form-control" asp-items="ViewBag.PaquetesDisponibles" multiple></select>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="DetalleReservaServicios" class="control-label"></label>
+                <select asp-for="DetalleReservaServicios" class="form-control" asp-items="ViewBag.ServiciosDisponibles" multiple></select>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Crear" class="btn btn-outline-primary" />
+                <a class="btn btn-outline-danger" asp-action="Index">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

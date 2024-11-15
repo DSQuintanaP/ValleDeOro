@@ -339,7 +339,9 @@ public partial class GvglampingContext : DbContext
             entity.HasOne(d => d.NroDocumentoClienteNavigation).WithMany(p => p.Reservas)
                 .HasForeignKey(d => d.NroDocumentoCliente)
                 .HasConstraintName("FK__Reservas__IdEsta__68487DD7");
+
         });
+
 
         modelBuilder.Entity<Role>(entity =>
         {
