@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using Newtonsoft.Json;
 using ValleDeOro.Models;
+using System.Collections.Immutable;
+
 
 namespace ValleDeOro.Controllers
 {
@@ -73,11 +75,18 @@ namespace ValleDeOro.Controllers
                 return NotFound();
             }
 
+            //var reserva = await _context.Reservas
+            //    .Include(r => r.IdEstadoReservaNavigation)
+            //    .Include(r => r.MetodoPagoNavigation)
+            //    .Include(r => r.NroDocumentoClienteNavigation)
+            //    .Include(r => r.DetalleReservaPaquetes).ThenInclude(dp => dp.IdPaqueteNavigation.IdPaquete)
+            //    .Include(r => r.DetalleReservaServicios).ThenInclude(ds => ds.IdServicioNavigation.IdServicio)
+            //    .FirstOrDefaultAsync(m => m.IdReserva == id);
             var reserva = await _context.Reservas
                 .Include(r => r.IdEstadoReservaNavigation)
                 .Include(r => r.MetodoPagoNavigation)
                 .Include(r => r.NroDocumentoClienteNavigation)
-                .Include(r => r.DetalleReservaPaquetes).ThenInclude(dp => dp.IdPaqueteNavigation.IdPaquete)
+                .Include(r => r.DetalleReservaPaquetes).ThenInclude(ds => ds.IdPaquete)
                 .Include(r => r.DetalleReservaServicios).ThenInclude(ds => ds.IdServicioNavigation.IdServicio)
                 .FirstOrDefaultAsync(m => m.IdReserva == id);
 
