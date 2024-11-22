@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using ValleDeOro.Models;
 using ValleDeOro.Models.VistaModelo;
 
+
 namespace ValleDeOro.Controllers
 {
     public class ReservasController : Controller
@@ -82,11 +83,18 @@ namespace ValleDeOro.Controllers
                 return NotFound();
             }
 
+            //var reserva = await _context.Reservas
+            //    .Include(r => r.IdEstadoReservaNavigation)
+            //    .Include(r => r.MetodoPagoNavigation)
+            //    .Include(r => r.NroDocumentoClienteNavigation)
+            //    .Include(r => r.DetalleReservaPaquetes).ThenInclude(dp => dp.IdPaqueteNavigation.IdPaquete)
+            //    .Include(r => r.DetalleReservaServicios).ThenInclude(ds => ds.IdServicioNavigation.IdServicio)
+            //    .FirstOrDefaultAsync(m => m.IdReserva == id);
             var reserva = await _context.Reservas
                 .Include(r => r.IdEstadoReservaNavigation)
                 .Include(r => r.MetodoPagoNavigation)
                 .Include(r => r.NroDocumentoClienteNavigation)
-                .Include(r => r.DetalleReservaPaquetes).ThenInclude(dp => dp.IdPaqueteNavigation.IdPaquete)
+                .Include(r => r.DetalleReservaPaquetes).ThenInclude(ds => ds.IdPaquete)
                 .Include(r => r.DetalleReservaServicios).ThenInclude(ds => ds.IdServicioNavigation.IdServicio)
                 .FirstOrDefaultAsync(m => m.IdReserva == id);
 
