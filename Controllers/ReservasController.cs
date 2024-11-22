@@ -39,18 +39,25 @@ namespace ValleDeOro.Controllers
 
         public ICollection<Reserva> ListarReservas()
         {
-            var gvglampingContext = _context.Reservas
-                .Include(r => r.IdEstadoReservaNavigation)
-                .Include(r => r.MetodoPagoNavigation)
-                .Include(r => r.NroDocumentoClienteNavigation)
-                .Include(r => r.DetalleReservaPaquetes).ThenInclude(dp => dp.IdPaqueteNavigation).ThenInclude(cry => cry.IdPaquete) 
-                .Include(r => r.DetalleReservaServicios).ThenInclude(ds => ds.IdServicioNavigation).ThenInclude(fuck => fuck.IdServicio)
+            var reservas = _context.Reservas
+                .Include(r => r.DetalleReservaPaquetes) // Incluye la colección de DetalleReservaPaquete
+                    .ThenInclude(dp => dp.IdPaqueteNavigation) // Incluye la entidad Paquete dentro del detalle
+                .Include(r => r.DetalleReservaServicios) // Incluye la colección de DetalleReservaServicio
+                    .ThenInclude(ds => ds.IdServicioNavigation) // Incluye la entidad Servicio dentro del detalle
                 .ToList();
-            return gvglampingContext;
+            var servicios = _context.DetalleReservaServicios
+                .Include(ds => ds.IdServicioNavigation) // Incluye la información del servicio
+                    .Where(ds => ds.IdReserva == IdReserva) // Filtra por el ID de la reserva
+                .ToList();
+            var paquetes = _context.DetalleReservaPaquetes
+                .Include(dp => dp.IdPaqueteNavigation) // Incluye la información del paquete
+                    .Where(dp => dp.IdReserva == (_context.Reservas).IdReserva) // Filtra por el ID de la reserva
+                .ToList();
+            return reservas;
         }
 
 
-        //---------------------------------------------------------
+        //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
         // GET: Reservas/Details/5
@@ -74,7 +81,7 @@ namespace ValleDeOro.Controllers
         //    return View(reserva);
         //}
 
-        //---------------------------------------------------------
+        //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
         public async Task<IActionResult> Details(int? id)
         {
@@ -176,12 +183,12 @@ namespace ValleDeOro.Controllers
                 return Task.FromResult<IActionResult>(View());
             }
 
-            if (!Existe((int)oReserva.NroDocumentoCliente))
-            {
-                ModelState.AddModelError("oReserva.NroDocumentoCliente", "El cliente no existe");
-                return View(CargarDatosIniciales());
-                //return View();
-            }
+            //if (!Existe((int)oReserva.NroDocumentoCliente))
+            //{
+            //    ModelState.AddModelError("oReserva.NroDocumentoCliente", "El cliente no existe");
+            //    return View(CargarDatosIniciales());
+            //    //return View();
+            //}
 
             var cliente = _context.Clientes.FirstOrDefault(c => c.NroDocumento == oReserva.NroDocumentoCliente);
 

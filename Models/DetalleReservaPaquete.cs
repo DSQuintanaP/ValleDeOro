@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ValleDeOro.Models;
-
-public partial class DetalleReservaPaquete
+namespace ValleDeOro.Models;public partial class DetalleReservaPaquete
 {
     public int DetalleReservaPaquete1 { get; set; }
 
@@ -19,3 +17,5 @@ public partial class DetalleReservaPaquete
 
     public virtual Reserva? IdReservaNavigation { get; set; }
 }
+
+
