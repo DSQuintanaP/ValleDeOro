@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using Newtonsoft.Json;
 using ValleDeOro.Models;
+using ValleDeOro.Models.VistaModelo;
 
 namespace ValleDeOro.Controllers
 {
@@ -27,16 +28,24 @@ namespace ValleDeOro.Controllers
         //    return View(await gvglampingContext.ToListAsync());
         //}
         //------------------------------------------------------
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
+        {
+            var Reservas = ListarReservas();
+
+
+            return View(Reservas.ToList());
+        }
+
+        public ICollection<Reserva> ListarReservas()
         {
             var gvglampingContext = _context.Reservas
                 .Include(r => r.IdEstadoReservaNavigation)
                 .Include(r => r.MetodoPagoNavigation)
                 .Include(r => r.NroDocumentoClienteNavigation)
-                .Include(r => r.DetalleReservaPaquetes).ThenInclude(dp => dp.IdPaquete)
-                .Include(r => r.DetalleReservaServicios).ThenInclude(ds => ds.IdServicio);
-
-            return View(await gvglampingContext.ToListAsync());
+                .Include(r => r.DetalleReservaPaquetes).ThenInclude(dp => dp.IdPaqueteNavigation).ThenInclude(cry => cry.IdPaquete) 
+                .Include(r => r.DetalleReservaServicios).ThenInclude(ds => ds.IdServicioNavigation).ThenInclude(fuck => fuck.IdServicio)
+                .ToList();
+            return gvglampingContext;
         }
 
 
@@ -159,12 +168,12 @@ namespace ValleDeOro.Controllers
                 return Task.FromResult<IActionResult>(View());
             }
 
-            //if (!Existe(oReserva.NroDocumentoCliente))
-            //{
-            //    ModelState.AddModelError("oReserva.NroDocumentoCliente", "El cliente no existe");
-            //    //return View(CargarDatosIniciales());
-            //    return View();
-            //}
+            if (!Existe((int)oReserva.NroDocumentoCliente))
+            {
+                ModelState.AddModelError("oReserva.NroDocumentoCliente", "El cliente no existe");
+                return View(CargarDatosIniciales());
+                //return View();
+            }
 
             var cliente = _context.Clientes.FirstOrDefault(c => c.NroDocumento == oReserva.NroDocumentoCliente);
 
@@ -252,6 +261,28 @@ namespace ValleDeOro.Controllers
             return Task.FromResult<IActionResult>(RedirectToAction("Index", "Reservas"));
 
         }
+
+        private VMReserva CargarDatosIniciales()
+        {
+            VMReserva ReservaVM = new VMReserva()
+            {
+                vmReserva = new Reserva(),
+                vmListadoMethodPay = _context.MetodoPagos.Select(reserva => new SelectListItem()
+                {
+                    Text = reserva.NomMetodoPago,
+                    Value = reserva.IdMetodoPago.ToString()
+                }).ToList()
+            };
+            return ReservaVM;
+        }
+
+        //---------------------------------------------------------
+
+        public bool Existe(int cliente)
+        {
+            return _context.Clientes.Any(yup => yup.NroDocumento == cliente);
+        }
+
         //---------------------------------------------------------
 
 
