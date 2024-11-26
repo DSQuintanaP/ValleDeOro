@@ -23,38 +23,13 @@ namespace ValleDeOro.Controllers
         }
 
         // GET: Reservas
-        //public async Task<IActionResult> Index()
-        //{
-        //    var gvglampingContext = _context.Reservas.Include(r => r.IdEstadoReservaNavigation).Include(r => r.MetodoPagoNavigation).Include(r => r.NroDocumentoClienteNavigation);
-        //    return View(await gvglampingContext.ToListAsync());
-        //}
+        public async Task<IActionResult> Index()
+        {
+            var gvglampingContext = _context.Reservas.Include(r => r.IdEstadoReservaNavigation).Include(r => r.MetodoPagoNavigation).Include(r => r.NroDocumentoClienteNavigation);
+            return View(await gvglampingContext.ToListAsync());
+        }
         //------------------------------------------------------
-        public IActionResult Index()
-        {
-            var Reservas = ListarReservas();
-
-
-            return View(Reservas.ToList());
-        }
-
-        public ICollection<Reserva> ListarReservas()
-        {
-            var reservas = _context.Reservas
-                .Include(r => r.DetalleReservaPaquetes) // Incluye la colección de DetalleReservaPaquete
-                    .ThenInclude(dp => dp.IdPaqueteNavigation) // Incluye la entidad Paquete dentro del detalle
-                .Include(r => r.DetalleReservaServicios) // Incluye la colección de DetalleReservaServicio
-                    .ThenInclude(ds => ds.IdServicioNavigation) // Incluye la entidad Servicio dentro del detalle
-                .ToList();
-            var servicios = _context.DetalleReservaServicios
-                .Include(ds => ds.IdServicioNavigation) // Incluye la información del servicio
-                    .Where(ds => ds.IdReserva == IdReserva) // Filtra por el ID de la reserva
-                .ToList();
-            var paquetes = _context.DetalleReservaPaquetes
-                .Include(dp => dp.IdPaqueteNavigation) // Incluye la información del paquete
-                    .Where(dp => dp.IdReserva == (_context.Reservas).IdReserva) // Filtra por el ID de la reserva
-                .ToList();
-            return reservas;
-        }
+        
 
 
         //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
