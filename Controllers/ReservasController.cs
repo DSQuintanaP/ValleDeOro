@@ -28,8 +28,8 @@ namespace ValleDeOro.Controllers
             var gvglampingContext = _context.Reservas.Include(r => r.IdEstadoReservaNavigation).Include(r => r.MetodoPagoNavigation).Include(r => r.NroDocumentoClienteNavigation);
             return View(await gvglampingContext.ToListAsync());
         }
-        //------------------------------------------------------
-        
+        //------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 
         //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -89,7 +89,7 @@ namespace ValleDeOro.Controllers
         }
 
 
-        //---------------------------------------------------------
+        //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
         // GET: Reservas/Create
         public IActionResult Create()
@@ -105,22 +105,22 @@ namespace ValleDeOro.Controllers
         // POST: Reservas/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        ////public async Task<IActionResult> Create([Bind("IdReserva,NroDocumentoCliente,FechaReserva,FechaInicio,FechaFinalizacion,Iva,MontoTotal,MetodoPago,IdEstadoReserva")] Reserva reserva)
-        //public async Task<IActionResult> Booking([Bind("IdReserva,NroDocumentoCliente,FechaReserva,FechaInicio,FechaFinalizacion,Iva,MontoTotal,MetodoPago,IdEstadoReserva")] Reserva reserva)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _context.Add(reserva);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    ViewData["IdEstadoReserva"] = new SelectList(_context.EstadosReservas, "IdEstadoReserva", "IdEstadoReserva", reserva.IdEstadoReserva);
-        //    ViewData["MetodoPago"] = new SelectList(_context.MetodoPagos, "NomMetodoPago", "NomMetodoPago", reserva.MetodoPagoNavigation.NomMetodoPago);
-        //    ViewData["NroDocumentoCliente"] = new SelectList(_context.Clientes, "NroDocumento", "NroDocumento", reserva.NroDocumentoCliente);
-        //    return View(reserva);
-        //}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create([Bind("IdReserva,NroDocumentoCliente,FechaReserva,FechaInicio,FechaFinalizacion,Iva,MontoTotal,MetodoPago,IdEstadoReserva")] Reserva reserva)
+        public async Task<IActionResult> Creat([Bind("IdReserva,NroDocumentoCliente,FechaReserva,FechaInicio,FechaFinalizacion,Iva,MontoTotal,MetodoPago,IdEstadoReserva")] Reserva reserva)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(reserva);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["IdEstadoReserva"] = new SelectList(_context.EstadosReservas, "IdEstadoReserva", "IdEstadoReserva", reserva.IdEstadoReserva);
+            ViewData["MetodoPago"] = new SelectList(_context.MetodoPagos, "NomMetodoPago", "NomMetodoPago", reserva.MetodoPagoNavigation.NomMetodoPago);
+            ViewData["NroDocumentoCliente"] = new SelectList(_context.Clientes, "NroDocumento", "NroDocumento", reserva.NroDocumentoCliente);
+            return View(reserva);
+        }
 
         // POST: Reservas/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -266,18 +266,18 @@ namespace ValleDeOro.Controllers
             return ReservaVM;
         }
 
-        //---------------------------------------------------------
+        //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
         public bool Existe(int cliente)
         {
             return _context.Clientes.Any(yup => yup.NroDocumento == cliente);
         }
 
-        //---------------------------------------------------------
+        //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
-        //---------------------------------------------------------
+        //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         // GET: Reservas/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {

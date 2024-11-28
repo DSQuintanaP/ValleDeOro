@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer;
 using ValleDeOro.Models;
@@ -13,12 +14,23 @@ namespace ValleDeOro
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
-            /*-----------------------------*/
+            /*-----------------------------------------------------------------------------------------------------------------------------------------------*/
 
             builder.Services.AddDbContext<GvglampingContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("BloggingDatabase")));
 
-            /*-----------------------------*/
+            void COnfigureServices(IServiceCollection services)
+            {
+                //Mapper
+                var mapperConfig = new MapperConfiguration(sun => {
+                    sun.AddProfile(new MappingProfile());
+                });
+                IMapper mapper = mapperConfig.CreateMapper();
+                services.AddSingleton(mapper);
+                services.AddMvc();
+            }
+
+            /*-----------------------------------------------------------------------------------------------------------------------------------------------*/
 
             var app = builder.Build();
 
