@@ -92,41 +92,111 @@ namespace ValleDeOro.Controllers
         //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
         // GET: Reservas/Create
+        //// public IActionResult Create()
+        //// {
+        ////     ViewData["IdEstadoReserva"] = new SelectList(_context.EstadosReservas, "IdEstadoReserva", "IdEstadoReserva");
+        ////     ViewData["MetodoPago"] = new SelectList(_context.MetodoPagos, "IdMetodoPago", "IdMetodoPago");
+        ////     ViewData["NroDocumentoCliente"] = new SelectList(_context.Clientes, "NroDocumento", "NroDocumento");
+        ////     ViewData["IdPaquete"] = new SelectList(_context.Paquetes, "IdPaquete", "IdPaquete");
+        ////     ViewData["IdServicio"] = new SelectList(_context.Servicios, "IdServicio", "IdServicio");
+        ////     return View();
+        //// }
+
+        //// POST: Reservas/Create
+        //// To protect from overposting attacks, enable the specific properties you want to bind to.
+        //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
+        ////[HttpPost]
+        //// [ValidateAntiForgeryToken]
+
+
+        //// public async Task<IActionResult> Create([Bind("IdReserva,NroDocumentoCliente,FechaReserva,FechaInicio,FechaFinalizacion,Iva,MontoTotal,MetodoPago,IdEstadoReserva")] Reserva reserva)
+        //// {
+        ////     if (ModelState.IsValid)
+        ////     {
+        ////         _context.Add(reserva);
+        ////         await _context.SaveChangesAsync();
+        ////         return RedirectToAction(nameof(Index));
+        ////     }
+        ////     ViewData["IdEstadoReserva"] = new SelectList(_context.EstadosReservas, "IdEstadoReserva", "IdEstadoReserva", reserva.IdEstadoReserva);
+        ////     ViewData["MetodoPago"] = new SelectList(_context.MetodoPagos, "NomMetodoPago", "NomMetodoPago", reserva.MetodoPagoNavigation.NomMetodoPago);
+        ////     ViewData["NroDocumentoCliente"] = new SelectList(_context.Clientes, "NroDocumento", "NroDocumento", reserva.NroDocumentoCliente);
+        ////     return View(reserva);
+        //// }
+
+        //// POST: Reservas/Create
+        //// To protect from overposting attacks, enable the specific properties you want to bind to.
+        //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
+        //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+        // GET: Reservas/Create
         public IActionResult Create()
         {
-            ViewData["IdEstadoReserva"] = new SelectList(_context.EstadosReservas, "IdEstadoReserva", "IdEstadoReserva");
-            ViewData["MetodoPago"] = new SelectList(_context.MetodoPagos, "IdMetodoPago", "IdMetodoPago");
-            ViewData["NroDocumentoCliente"] = new SelectList(_context.Clientes, "NroDocumento", "NroDocumento");
-            ViewData["IdPaquete"] = new SelectList(_context.Paquetes, "IdPaquete", "IdPaquete");
-            ViewData["IdServicio"] = new SelectList(_context.Servicios, "IdServicio", "IdServicio");
+            ViewData["NroDocumentoCliente"] = new SelectList(_context.Clientes, "NroDocumento", "Nombres");
+            ViewData["MetodoPagoDisponible"] = new SelectList(_context.MetodoPagos, "IdMetodoPago", "NomMetodoPago");
+            ViewData["PaquetesDisponibles"] = new SelectList(_context.Paquetes, "IdPaquete", "NomPaquete");
+            ViewData["ServiciosDisponibles"] = new SelectList(_context.Servicios, "IdServicio", "NomServicio");
+            ViewData["EstadoReserva"] = new SelectList(_context.EstadosReservas, "IdEstadoReserva", "NombreEstadoReserva");
+
             return View();
         }
 
         // POST: Reservas/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("IdReserva,NroDocumentoCliente,FechaReserva,FechaInicio,FechaFinalizacion,Iva,MontoTotal,MetodoPago,IdEstadoReserva")] Reserva reserva)
-        public async Task<IActionResult> Creat([Bind("IdReserva,NroDocumentoCliente,FechaReserva,FechaInicio,FechaFinalizacion,Iva,MontoTotal,MetodoPago,IdEstadoReserva")] Reserva reserva)
+        public async Task<IActionResult> Create(Reserva reserva, int[] serviciosSeleccionados, int[] paquetesSeleccionados)
         {
             if (ModelState.IsValid)
             {
+                // Agregar fecha de reserva
+                reserva.FechaReserva = DateTime.Now;
+
+                // Guardar la reserva
                 _context.Add(reserva);
+                await _context.SaveChangesAsync();
+
+                // Relacionar servicios seleccionados con la reserva
+                foreach (var idServicio in serviciosSeleccionados)
+                {
+                    var detalleServicio = new DetalleReservaServicio
+                    {
+                        IdReserva = reserva.IdReserva,
+                        IdServicio = idServicio,
+                        Cantidad = 1 // Puedes ajustar esto según tu lógica de negocio
+                    };
+                    _context.DetalleReservaServicios.Add(detalleServicio);
+                }
+
+                // Relacionar paquetes seleccionados con la reserva
+                foreach (var idPaquete in paquetesSeleccionados)
+                {
+                    var detallePaquete = new DetalleReservaPaquete
+                    {
+                        IdReserva = reserva.IdReserva,
+                        IdPaquete = idPaquete,
+                        Cantidad = 1 // Ajusta según sea necesario
+                    };
+                    _context.DetalleReservaPaquetes.Add(detallePaquete);
+                }
+
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdEstadoReserva"] = new SelectList(_context.EstadosReservas, "IdEstadoReserva", "IdEstadoReserva", reserva.IdEstadoReserva);
-            ViewData["MetodoPago"] = new SelectList(_context.MetodoPagos, "NomMetodoPago", "NomMetodoPago", reserva.MetodoPagoNavigation.NomMetodoPago);
-            ViewData["NroDocumentoCliente"] = new SelectList(_context.Clientes, "NroDocumento", "NroDocumento", reserva.NroDocumentoCliente);
+
+            // Cargar datos nuevamente en caso de error
+            ViewData["NroDocumentoCliente"] = new SelectList(_context.Clientes, "NroDocumento", "Nombres", reserva.NroDocumentoCliente);
+            ViewData["MetodoPagoDisponible"] = new SelectList(_context.MetodoPagos, "IdMetodoPago", "NomMetodoPago", reserva.MetodoPago);
+            ViewData["EstadoReserva"] = new SelectList(_context.EstadosReservas, "IdEstadoReserva", "NombreEstadoReserva", reserva.IdEstadoReserva);
+
             return View(reserva);
         }
 
-        // POST: Reservas/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
+        //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
         [HttpPost]
-        public Task<IActionResult> Create([Bind("IdReserva,NroDocumentoCliente,FechaReserva,FechaInicio,FechaFinalizacion,Iva,MontoTotal,MetodoPago,IdEstadoReserva,IdServicio")] Reserva oReserva, string paqueteSeleccionado, string serviciosSeleccionados)
+        public Task<IActionResult> Creation([Bind("IdReserva,NroDocumentoCliente,FechaReserva,FechaInicio,FechaFinalizacion,Iva,MontoTotal,MetodoPago,IdEstadoReserva,IdServicio")] Reserva oReserva, string paqueteSeleccionado, string serviciosSeleccionados)
         {
 
             ViewBag.PaquetesDisponibles = _context.Paquetes.Where(s => s.Estado == true)

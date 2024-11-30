@@ -1,4 +1,4 @@
-﻿@* @model ValleDeOro.Models.Reserva
+﻿@model ValleDeOro.Models.Reserva
 
 
 @{
@@ -41,14 +41,24 @@
                 <label asp-for="MetodoPagoNavigation.NomMetodoPago" class="control-label"></label>
                 <select asp-for="MetodoPagoNavigation.NomMetodoPago" class="form-control" asp-items="ViewBag.MetodoPagoDisponible"></select>
             </div>
-            <div class="form-group">
+            @* <div class="form-group">
                 <label asp-for="DetalleReservaPaquetes" class="control-label"></label>
                 <select asp-for="DetalleReservaPaquetes" class="form-control" asp-items="ViewBag.PaquetesDisponibles"></select>
             </div>
             <div class="form-group">
                 <label asp-for="DetalleReservaServicios" class="control-label"></label>
                 <select asp-for="DetalleReservaServicios" class="form-control" asp-items="ViewBag.ServiciosDisponibles"></select>
+            </div> *@
+            <div class="form-group">
+                <label asp-for="DetalleReservaPaquetes" class="control-label">Paquetes</label>
+                <select asp-for="DetalleReservaPaquetes" class="form-control" asp-items="ViewBag.PaquetesDisponibles" multiple></select>
             </div>
+
+            <div class="form-group">
+                <label asp-for="DetalleReservaServicios" class="control-label">Servicios</label>
+                <select asp-for="DetalleReservaServicios" class="form-control" asp-items="ViewBag.ServiciosDisponibles" multiple></select>
+            </div>
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-outline-primary" />
                 <a class="btn btn-outline-danger" asp-action="Index">Cancelar</a>
@@ -64,8 +74,15 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
- *@
- @model ValleDeOro.Models.Reserva
+
+
+
+
+@* -------------------------------------------------------------------------------------------------------------------------------------------------------- *@
+
+ 
+@* @model ValleDeOro.Models.Reserva
+ 
 
 @{
     ViewData["Title"] = "Create";
@@ -135,3 +152,4 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
+ *@
