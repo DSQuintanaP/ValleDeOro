@@ -19,7 +19,7 @@ namespace ValleDeOro
             builder.Services.AddDbContext<GvglampingContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("BloggingDatabase")));
 
-            void COnfigureServices(IServiceCollection services)
+            void ConfigureServices(IServiceCollection services)
             {
                 //Mapper
                 var mapperConfig = new MapperConfiguration(sun => {
