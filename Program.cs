@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer;
 using ValleDeOro.Models;
@@ -29,6 +30,11 @@ namespace ValleDeOro
                 services.AddSingleton(mapper);
                 services.AddMvc();
             }
+
+            builder.Services.AddControllers(options =>
+            {
+                options.ModelMetadataDetailsProviders.Add(new SystemTextJsonValidationMetadataProvider());
+            });
 
             /*-----------------------------------------------------------------------------------------------------------------------------------------------*/
 

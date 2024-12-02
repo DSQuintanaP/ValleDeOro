@@ -14,10 +14,11 @@ public partial class Cliente
     [Required]
     public string Nombres { get; set; }
 
-    [Required]
+    [Required]    
     public string Apellidos { get; set; }
 
     [Required]
+    [Phone]
     public string Celular { get; set; }
 
     [Required]
