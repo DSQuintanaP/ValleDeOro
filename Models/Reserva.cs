@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
 
 namespace ValleDeOro.Models;
 
@@ -7,21 +9,29 @@ public partial class Reserva
 {
     public int IdReserva { get; set; }
 
-    public int? NroDocumentoCliente { get; set; }
+    [Required]
+    public int NroDocumentoCliente { get; set; }
+    
+    [Required]
+    public DateTime FechaReserva { get; set; }
 
-    public DateTime? FechaReserva { get; set; }
+    [Required]
+    public DateTime FechaInicio { get; set; }
 
-    public DateTime? FechaInicio { get; set; }
+    [Required]
+    public DateTime FechaFinalizacion { get; set; }
 
-    public DateTime? FechaFinalizacion { get; set; }
+    [Required]
+    public decimal Iva { get; set; }
 
-    public decimal? Iva { get; set; }
-
+    [Required]
     public decimal? MontoTotal { get; set; }
 
-    public int? MetodoPago { get; set; }
+    [Required]
+    public int MetodoPago { get; set; }
 
-    public int? IdEstadoReserva { get; set; }
+    [Required]
+    public int IdEstadoReserva { get; set; }
 
     public virtual ICollection<Abono> Abonos { get; set; } = new List<Abono>();
 
@@ -29,9 +39,9 @@ public partial class Reserva
 
     public virtual ICollection<DetalleReservaServicio> DetalleReservaServicios { get; set; } = new List<DetalleReservaServicio>();
 
-    public virtual EstadosReserva? IdEstadoReservaNavigation { get; set; }
+    public virtual EstadosReserva IdEstadoReservaNavigation { get; set; }
 
-    public virtual MetodoPago? MetodoPagoNavigation { get; set; } 
+    public virtual MetodoPago MetodoPagoNavigation { get; set; } 
 
-    public virtual Cliente? NroDocumentoClienteNavigation { get; set; }
+    public virtual Cliente NroDocumentoClienteNavigation { get; set; }
 }
