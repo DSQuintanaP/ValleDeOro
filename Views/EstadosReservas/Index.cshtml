@@ -9,18 +9,24 @@
 <p>
     <a class="btn btn-outline-primary" asp-action="Create">Create New</a>
 </p>
-<table class="table">
+<table class="table table-striped" id="TablaIndice">
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(Model => Model.IdEstadoReserva)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.NombreEstadoReserva)
             </th>
-            <th></th>
+            <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdEstadoReserva)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.NombreEstadoReserva)
             </td>

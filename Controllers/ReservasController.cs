@@ -196,7 +196,7 @@ namespace ValleDeOro.Controllers
         //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
         [HttpPost]
-        public Task<IActionResult> Creation([Bind("IdReserva,NroDocumentoCliente,FechaReserva,FechaInicio,FechaFinalizacion,Iva,MontoTotal,MetodoPago,IdEstadoReserva,IdServicio")] Reserva oReserva, string paqueteSeleccionado, string serviciosSeleccionados)
+        public Task<IActionResult> Booking([Bind("IdReserva,NroDocumentoCliente,FechaReserva,FechaInicio,FechaFinalizacion,Iva,MontoTotal,MetodoPago,IdEstadoReserva,IdServicio")] Reserva oReserva, string paqueteSeleccionado, string serviciosSeleccionados)
         {
 
             ViewBag.PaquetesDisponibles = _context.Paquetes.Where(s => s.Estado == true)
